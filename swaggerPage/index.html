@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swagger: O Menu dos Desenvolvedores</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="antialiased">
+
+    <header class="text-center py-12 md:py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <h1 class="text-4xl md:text-6xl font-bold accent-text mb-4">Swagger</h1>
+            <p class="text-xl md:text-2xl text-gray-700">O Menu de Restaurante para Desenvolvedores</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <section id="analogy" class="mb-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-2">A Analogia do Restaurante</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">Para entender o Swagger, imagine que uma API é a cozinha de um restaurante. Ela prepara e entrega os "pratos" (dados) que outras aplicações pedem.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 items-stretch">
+                <div class="card p-8">
+                    <div class="flex items-center mb-4">
+                        <span class="text-5xl mr-4">🍽️</span>
+                        <h3 class="text-2xl font-semibold">O Restaurante</h3>
+                    </div>
+                    <ul class="space-y-4 text-gray-700">
+                        <li><strong class="accent-text">Cardápio:</strong> Lista todos os pratos disponíveis.</li>
+                        <li><strong class="accent-text">Pratos:</strong> As comidas que você pode pedir (Ex: Filé de Frango).</li>
+                        <li><strong class="accent-text">Ingredientes:</strong> O que vem em cada prato (Ex: Arroz, batatas).</li>
+                        <li><strong class="accent-text">Pedido:</strong> Como pedir ao garçom (Ex: "Quero um filé").</li>
+                    </ul>
+                </div>
+                <div class="card p-8">
+                    <div class="flex items-center mb-4">
+                        <span class="text-5xl mr-4">💻</span>
+                        <h3 class="text-2xl font-semibold">A API com Swagger</h3>
+                    </div>
+                    <ul class="space-y-4 text-gray-700">
+                        <li><strong class="accent-text">Documentação Swagger:</strong> O "menu" digital e interativo da API.</li>
+                        <li><strong class="accent-text">Endpoints:</strong> As "ações" que você pode solicitar (Ex: `/pessoas`).</li>
+                        <li><strong class="accent-text">Resposta:</strong> Os dados que a API retorna (Ex: Nome, idade).</li>
+                        <li><strong class="accent-text">Requisição:</strong> Como solicitar a informação (Ex: Enviar um ID).</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="mb-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-2">O Cardápio Interativo</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">O Swagger cria uma página web que funciona como um menu completo e funcional. Clique nas abas abaixo para explorar o que ele oferece.</p>
+            </div>
+            <div class="max-w-4xl mx-auto">
+                <div class="flex flex-wrap justify-center gap-2 mb-6">
+                    <button data-tab="endpoints" class="tab-button active text-sm md:text-base font-semibold py-2 px-4 rounded-full transition-colors duration-300">O que a API oferece?</button>
+                    <button data-tab="request" class="tab-button text-sm md:text-base font-semibold py-2 px-4 rounded-full transition-colors duration-300">Como "pedir"?</button>
+                    <button data-tab="response" class="tab-button text-sm md:text-base font-semibold py-2 px-4 rounded-full transition-colors duration-300">O que você recebe?</button>
+                    <button data-tab="test" class="tab-button text-sm md:text-base font-semibold py-2 px-4 rounded-full transition-colors duration-300">Experimente na Hora!</button>
+                </div>
+                <div class="card p-8 min-h-[12rem]">
+                    <div id="endpoints" class="tab-content active">
+                        <h4 class="text-xl font-bold accent-text mb-2">Endpoints: Os "Pratos" da API</h4>
+                        <p class="text-gray-700">O Swagger lista todas as operações disponíveis, como buscar usuários (`/usuarios`), criar um novo livro (`/livros`) ou deletar um produto (`/produtos`). É a lista completa do que a "cozinha" pode preparar para você.</p>
+                    </div>
+                    <div id="request" class="tab-content">
+                        <h4 class="text-xl font-bold accent-text mb-2">Requisições: Fazendo o Pedido</h4>
+                        <p class="text-gray-700">Para cada endpoint, o Swagger detalha exatamente o que você precisa enviar. Por exemplo, para buscar um usuário específico, ele informa que você precisa fornecer um `ID` numérico. Não há como errar o pedido.</p>
+                    </div>
+                    <div id="response" class="tab-content">
+                        <h4 class="text-xl font-bold accent-text mb-2">Respostas: O Prato que Chega à Mesa</h4>
+                        <p class="text-gray-700">Ele mostra a estrutura exata dos dados que você receberá de volta. Se você pedir por um usuário, saberá que receberá um objeto contendo `nome`, `idade` e `email`. Sem surpresas no que vem no prato.</p>
+                    </div>
+                    <div id="test" class="tab-content">
+                        <h4 class="text-xl font-bold accent-text mb-2">Teste Interativo: A "Prova" do Prato</h4>
+                        <p class="text-gray-700">A melhor parte: você pode fazer requisições de teste diretamente na página da documentação. É como provar uma amostra do prato antes de pedi-lo, garantindo que é exatamente o que você espera.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="importance" class="mb-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-2">Por que isso é tão importante?</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">Swagger resolve um grande problema no mundo do desenvolvimento: a documentação manual, que é propensa a erros e desatualização.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="card p-8 border-t-4 border-red-400">
+                    <h3 class="text-2xl font-semibold text-red-500 mb-4">❌ Antes do Swagger</h3>
+                    <div class="space-y-4 text-gray-700">
+                        <p><strong class="font-semibold">Processo Manual:</strong> A documentação era feita em arquivos de texto ou planilhas. Qualquer mudança na API exigia uma atualização manual, que muitas vezes era esquecida.</p>
+                        <p><strong class="font-semibold">Documentação Desatualizada:</strong> Desenvolvedores consumiam a API baseados em um "cardápio" antigo. Pediam um prato com arroz, mas ele agora vinha com purê. Isso causava bugs e frustração.</p>
+                    </div>
+                </div>
+                <div class="card p-8 border-t-4 border-green-400">
+                    <h3 class="text-2xl font-semibold text-green-500 mb-4">✅ Com o Swagger</h3>
+                    <div class="space-y-4 text-gray-700">
+                        <p><strong class="font-semibold">Processo Automático:</strong> O Swagger gera a documentação a partir do próprio código da API. Se o "chef" (desenvolvedor) muda um ingrediente, o cardápio é atualizado instantaneamente.</p>
+                        <p><strong class="font-semibold">Fonte Única da Verdade:</strong> O cardápio é sempre um reflexo fiel da cozinha. O que você vê é exatamente o que você recebe, criando um contrato claro e confiável entre a API e quem a utiliza.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="secondary-bg py-8">
+        <div class="container mx-auto px-6 text-center text-gray-600">
+            <p class="font-bold text-lg mb-2">Swagger transforma o caos em organização.</p>
+            <p>Ele cria um sistema claro, automatizado e eficiente, simplificando a vida de todos os desenvolvedores envolvidos.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
