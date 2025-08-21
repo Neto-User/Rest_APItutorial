@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorador Interativo de Cache de Servidor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony (Stone, Teal) -->
+    <!-- Application Structure Plan: A thematic, single-page application designed for conceptual exploration. The structure includes: a hero definition, a benefits section, a central interactive diagram demonstrating the request/response flow with and without cache, a tabbed section for cache types, and a final section with side-by-side real-world examples. This non-linear, thematic structure was chosen over a simple text layout to make the abstract concept of caching tangible and engaging, allowing users to learn by doing and seeing rather than just reading. -->
+    <!-- Visualization & Content Choices: The core of the report is the process flow, which is best represented by a custom interactive diagram (HTML/CSS/JS) instead of a data chart. Report Info: Request/Response flow -> Goal: Demonstrate Process -> Viz: Interactive Diagram -> Interaction: User-triggered simulation of cached vs. uncached requests -> Justification: Actively demonstrates the performance difference, which is the key takeaway. Report Info: Cache Types -> Goal: Organize -> Viz: Tabbed Interface -> Interaction: Click to reveal -> Justification: Segments information for clarity. The application avoids traditional charts as the source material is qualitative. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-20 border-b border-stone-200">
+        <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-stone-700">Explorador de Cache</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#intro" class="nav-link px-3 py-2 text-sm font-medium text-stone-600 border-b-2 border-transparent">O Que É?</a>
+                        <a href="#how-it-works" class="nav-link px-3 py-2 text-sm font-medium text-stone-600 border-b-2 border-transparent">Como Funciona?</a>
+                        <a href="#types" class="nav-link px-3 py-2 text-sm font-medium text-stone-600 border-b-2 border-transparent">Tipos de Cache</a>
+                        <a href="#examples" class="nav-link px-3 py-2 text-sm font-medium text-stone-600 border-b-2 border-transparent">Exemplos</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        
+        <section id="intro" class="text-center py-16">
+            <h2 class="text-4xl md:text-5xl font-bold text-stone-800 mb-4">O que é Cache de Servidor?</h2>
+            <p class="max-w-3xl mx-auto text-lg text-stone-600">
+                É a habilidade de um sistema de armazenar e reutilizar respostas a solicitações anteriores, em vez de processar a mesma solicitação repetidamente. O objetivo principal é aumentar drasticamente a eficiência e o desempenho, entregando conteúdo aos usuários de forma muito mais rápida.
+            </p>
+        </section>
+
+        <section id="how-it-works" class="py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-stone-800">Como o Cache Funciona na Prática?</h2>
+                <p class="mt-2 text-stone-600 max-w-2xl mx-auto">Esta simulação interativa mostra o fluxo de uma solicitação de dados com e sem cache. Clique nos botões para ver a diferença no tempo e no caminho percorrido pela informação.</p>
+            </div>
+
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-md">
+                <div id="diagram-container" class="relative h-64 md:h-80 flex items-center justify-between">
+                    <div id="user" class="diagram-box w-24 md:w-32">
+                        <span class="text-2xl">👤</span>
+                        <p class="font-semibold mt-2">Usuário</p>
+                    </div>
+                    <div id="cache" class="diagram-box w-24 md:w-32">
+                        <span class="text-2xl">🗄️</span>
+                        <p class="font-semibold mt-2">Cache</p>
+                        <span id="cache-status" class="text-xs text-stone-500">(Vazio)</span>
+                    </div>
+                    <div id="server" class="diagram-box w-24 md:w-32">
+                        <span class="text-2xl">🖥️</span>
+                        <p class="font-semibold mt-2">Servidor</p>
+                        <span id="server-status" class="text-xs text-stone-500">(Ocioso)</span>
+                    </div>
+                    <div id="packet" class="request-packet">Req</div>
+                </div>
+
+                <div class="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4">
+                    <button id="no-cache-btn" class="w-full sm:w-auto bg-teal-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-teal-700 transition-colors">
+                        Simular Requisição (Sem Cache)
+                    </button>
+                    <button id="with-cache-btn" class="w-full sm:w-auto bg-stone-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-stone-600 transition-colors">
+                        Simular Requisição (Com Cache)
+                    </button>
+                     <button id="reset-btn" class="w-full sm:w-auto bg-gray-300 text-stone-800 font-semibold py-2 px-6 rounded-lg hover:bg-gray-400 transition-colors">
+                        Resetar Simulação
+                    </button>
+                </div>
+                 <div id="simulation-log" class="mt-6 text-center text-stone-600 h-6"></div>
+            </div>
+        </section>
+
+        <section id="types" class="py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-stone-800">Tipos de Implementação de Cache</h2>
+                <p class="mt-2 text-stone-600 max-w-2xl mx-auto">O cache pode ser implementado em diferentes pontos do fluxo de comunicação. Clique para explorar os tipos mais comuns.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="cache-type-card bg-white p-6 rounded-xl shadow-md cursor-pointer border-2 border-transparent hover:border-teal-500 transition-all" data-type="browser">
+                    <h3 class="text-xl font-bold text-stone-800 mb-2">Cache no Navegador</h3>
+                    <p class="text-stone-600">Seu próprio navegador armazena arquivos (imagens, CSS) de sites que você visita para acelerar o carregamento em visitas futuras.</p>
+                </div>
+                <div class="cache-type-card bg-white p-6 rounded-xl shadow-md cursor-pointer border-2 border-transparent hover:border-teal-500 transition-all" data-type="proxy">
+                    <h3 class="text-xl font-bold text-stone-800 mb-2">Cache de Proxy / CDN</h3>
+                    <p class="text-stone-600">Servidores intermediários armazenam respostas populares para entregá-las a múltiplos usuários sem contatar o servidor de origem.</p>
+                </div>
+                <div class="cache-type-card bg-white p-6 rounded-xl shadow-md cursor-pointer border-2 border-transparent hover:border-teal-500 transition-all" data-type="server">
+                    <h3 class="text-xl font-bold text-stone-800 mb-2">Cache no Servidor</h3>
+                    <p class="text-stone-600">O próprio servidor de origem armazena em memória dados ou partes de páginas que são frequentemente solicitadas para evitar consultas repetidas ao banco de dados.</p>
+                </div>
+            </div>
+
+            <div id="type-details" class="mt-8 bg-white p-8 rounded-xl shadow-inner min-h-[100px] text-stone-700">
+                <p>Selecione um tipo de cache acima para ver mais detalhes.</p>
+            </div>
+        </section>
+
+        <section id="examples" class="py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-stone-800">Exemplos Práticos</h2>
+                <p class="mt-2 text-stone-600 max-w-2xl mx-auto">Veja como o cache impacta o desempenho de aplicações comuns, como um site de notícias e uma loja virtual.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <h3 class="text-2xl font-bold text-stone-800 mb-4">📰 Site de Notícias</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold text-red-600 mb-2">❌ Sem Cache</h4>
+                            <p class="text-sm text-stone-600">Para cada visitante, o servidor busca o artigo no banco de dados, monta a página e a envia. Isso sobrecarrega o servidor com tráfego intenso.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-green-600 mb-2">✅ Com Cache</h4>
+                            <p class="text-sm text-stone-600">A página do artigo é gerada uma vez e armazenada. Milhares de visitantes recebem essa cópia em cache instantaneamente, aliviando o servidor.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <h3 class="text-2xl font-bold text-stone-800 mb-4">🛒 E-commerce</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold text-red-600 mb-2">❌ Sem Cache</h4>
+                            <p class="text-sm text-stone-600">A página inicial com "produtos em destaque" exige uma consulta complexa ao banco de dados para cada usuário, tornando o carregamento lento.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-green-600 mb-2">✅ Com Cache</h4>
+                            <p class="text-sm text-stone-600">A lista de produtos em destaque é salva em cache por uma hora. Todos os usuários veem a página carregar instantaneamente, melhorando a experiência.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-800 text-stone-300 mt-16">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center">
+            <p>Uma demonstração interativa sobre a importância do cache.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

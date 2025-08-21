@@ -1,0 +1,33 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f7f4;
+    color: #3f3c3a;
+}
+.nav-link {
+    transition: all 0.2s ease-in-out;
+}
+.nav-link.active {
+    background-color: #e0e7ff;
+    color: #4f46e5;
+    font-weight: 600;
+}
+.content-section {
+    display: none;
+}
+.content-section.active {
+    display: block;
+}
+code {
+    background-color: #e7e5e4;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.9em;
+    color: #57534e;
+}
+pre code {
+    display: block;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    white-space: pre-wrap;
+    word-break: break-all;
+}

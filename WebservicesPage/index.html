@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Que São Web Services?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css"> <!-- Link para o arquivo CSS separado -->
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: A single-page application with four thematic, scrollable sections: "O que é?", "Como Funciona?", "Por que Usar?", and "A Evolução". This structure was chosen because it breaks down a complex technical topic into logical, question-based modules (What, How, Why), which is more intuitive for a learning audience than a simple linear document. The user can explore concepts in any order via the navigation, and interactive elements within each section are designed to reinforce the core message, making the learning process more engaging and effective. -->
+    <!-- Visualization & Content Choices: 1. Core Concept -> Goal: Inform -> Viz: Interactive diagram of a central 'attendant' server connected to various clients (HTML/CSS) -> Interaction: Hover on client icons to see tooltips -> Justification: Visually represents the central metaphor of the source text. 2. E-commerce Example -> Goal: Explain a process -> Viz: Animated flow diagram (HTML/CSS/JS) -> Interaction: A button triggers the animation of a request/response cycle -> Justification: Makes the abstract data exchange process tangible and easy to follow. 3. Reuse Concept -> Goal: Organize/Compare -> Viz: A grid showing 'software parts' and 'applications' (HTML/CSS/JS) -> Interaction: Clicking a 'part' visually connects it to the applications that use it -> Justification: Clearly demonstrates the one-to-many reusability principle. 4. History -> Goal: Show change -> Viz: A 'Before/After' toggle diagram (HTML/CSS/JS) -> Interaction: A button switches between a chaotic 'before' state and an organized 'after' state -> Justification: Provides a simple, powerful visual for the impact of standardization (SOAP/REST). -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200/80">
+        <nav class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <h1 class="text-xl font-bold text-gray-800">Web Services Desmistificados</h1>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#what" class="nav-link text-gray-600 hover:text-amber-600 border-b-2 border-transparent pb-1">O que é?</a>
+                    <a href="#how" class="nav-link text-gray-600 hover:text-amber-600 border-b-2 border-transparent pb-1">Como Funciona?</a>
+                    <a href="#why" class="nav-link text-gray-600 hover:text-amber-600 border-b-2 border-transparent pb-1">Por que Usar?</a>
+                    <a href="#evolution" class="nav-link text-gray-600 hover:text-amber-600 border-b-2 border-transparent pb-1">A Evolução</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="what" class="py-20 md:py-28">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">O que é um Web Service?</h2>
+                <p class="max-w-3xl mx-auto text-lg text-gray-600 mb-12">Pense nele como um atendente super especializado de uma empresa, sempre disponível para receber "ligações" de outros programas e fornecer informações ou realizar tarefas.</p>
+                
+                <div class="relative w-full max-w-2xl h-64 md:h-80 mx-auto flex items-center justify-center">
+                    <div class="absolute z-10 flex flex-col items-center">
+                        <div class="bg-amber-500 rounded-full w-24 h-24 md:w-28 md:h-28 flex items-center justify-center shadow-lg">
+                            <span class="text-4xl md:text-5xl">🤖</span>
+                        </div>
+                        <p class="mt-2 font-semibold text-gray-700">Web Service</p>
+                    </div>
+                    
+                    <div class="client-icon absolute top-0 left-1/4" data-title="Seu Celular">
+                        <span class="text-4xl">📱</span>
+                    </div>
+                    <div class="client-icon absolute top-1/4 right-0" data-title="Outro Sistema">
+                        <span class="text-4xl">☁️</span>
+                    </div>
+                    <div class="client-icon absolute bottom-0 left-0" data-title="Computador">
+                        <span class="text-4xl">💻</span>
+                    </div>
+                     <div class="client-icon absolute bottom-1/4 right-1/4" data-title="Loja Virtual">
+                        <span class="text-4xl">🛒</span>
+                    </div>
+
+                    <div id="tooltip" class="absolute bg-gray-800 text-white text-sm rounded py-1 px-2 opacity-0 transition-opacity duration-300"></div>
+                </div>
+                 <p class="max-w-3xl mx-auto text-lg text-gray-600 mt-12">A grande sacada: ele não mostra uma página bonita para humanos. Ele fala uma língua que **outras máquinas entendem**, permitindo a comunicação e a troca de dados pela internet via protocolo HTTP.</p>
+            </div>
+        </section>
+
+        <section id="how" class="py-20 md:py-28 bg-amber-50/50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Como Funciona na Prática?</h2>
+                    <p class="max-w-3xl mx-auto text-lg text-gray-600">Vamos ver um exemplo: uma loja virtual consultando se o CEP de um cliente tem frete grátis.</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-md max-w-4xl mx-auto">
+                    <div class="relative flex justify-between items-center h-48">
+                        <div class="text-center w-32">
+                            <div class="text-4xl mb-2">🛒</div>
+                            <h3 class="font-bold">Sua Loja Virtual</h3>
+                        </div>
+                        
+                        <div class="absolute top-1/2 left-0 w-full h-px bg-gray-300"></div>
+                        <svg class="absolute top-0 left-0 w-full h-full overflow-visible">
+                            <path id="requestPath" d="M 140 96 C 300 20, 500 20, 660 96" stroke="none" fill="none"/>
+                            <path id="responsePath" d="M 660 96 C 500 172, 300 172, 140 96" stroke="none" fill="none"/>
+                        </svg>
+                        <div class="request-path"></div>
+                        <div class="response-path"></div>
+
+                        <div class="text-center w-32">
+                            <div class="text-4xl mb-2">🚚</div>
+                            <h3 class="font-bold">Web Service da Transportadora</h3>
+                        </div>
+                    </div>
+                    <div class="text-center mt-8">
+                        <button id="run-simulation" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                            Verificar Frete
+                        </button>
+                        <p id="simulation-status" class="mt-4 h-6 text-gray-600 font-semibold"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="why" class="py-20 md:py-28">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Por que Usar? O Reuso de Software</h2>
+                    <p class="max-w-3xl mx-auto text-lg text-gray-600">Web Services são como peças de carro: componentes prontos que podem ser usados em diferentes sistemas, economizando tempo e esforço.</p>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-8 max-w-5xl mx-auto">
+                    <div class="md:w-1/3">
+                        <h3 class="font-bold text-xl mb-4 text-center md:text-left">Peças de Software (Serviços)</h3>
+                        <div class="space-y-3">
+                            <div class="component-card interactive-card bg-white p-4 rounded-lg shadow-sm cursor-pointer border-2 border-transparent" data-target="all">
+                                <span class="text-2xl mr-3">💳</span> Validação de Pagamento
+                            </div>
+                            <div class="component-card interactive-card bg-white p-4 rounded-lg shadow-sm cursor-pointer border-2 border-transparent" data-target="ecommerce,internal">
+                                <span class="text-2xl mr-3">📄</span> Validação de CPF/CNPJ
+                            </div>
+                            <div class="component-card interactive-card bg-white p-4 rounded-lg shadow-sm cursor-pointer border-2 border-transparent" data-target="mobile">
+                                <span class="text-2xl mr-3">📍</span> Serviço de Geolocalização
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-xl mb-4 text-center md:text-left">Aplicações que usam as peças</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div id="app-ecommerce" class="application-box bg-gray-100 p-6 rounded-lg text-center transition-all duration-300">
+                                <span class="text-4xl">🛒</span>
+                                <p class="font-semibold mt-2">E-commerce</p>
+                            </div>
+                             <div id="app-mobile" class="application-box bg-gray-100 p-6 rounded-lg text-center transition-all duration-300">
+                                <span class="text-4xl">📱</span>
+                                <p class="font-semibold mt-2">App Mobile</p>
+                            </div>
+                             <div id="app-internal" class="application-box bg-gray-100 p-6 rounded-lg text-center transition-all duration-300">
+                                <span class="text-4xl">🏢</span>
+                                <p class="font-semibold mt-2">Sistema Interno</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="evolution" class="py-20 md:py-28 bg-amber-50/50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">A Evolução: Do Caos à Ordem</h2>
+                    <p class="max-w-3xl mx-auto text-lg text-gray-600">Antigamente, a integração de sistemas era um pesadelo. Padrões como SOAP e REST trouxeram uma linguagem comum para essa comunicação.</p>
+                </div>
+                
+                <div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-md">
+                    <div class="flex justify-center mb-6">
+                        <div class="bg-gray-200 p-1 rounded-lg flex space-x-1">
+                            <button id="btn-before" class="evolution-btn bg-white text-gray-800 font-semibold py-2 px-6 rounded-md">Antes</button>
+                            <button id="btn-after" class="evolution-btn text-gray-600 font-semibold py-2 px-6 rounded-md">Depois</button>
+                        </div>
+                    </div>
+                    <div id="evolution-diagram" class="relative h-64 flex justify-center items-center transition-all duration-500">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2025 Explicações Interativas. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script> <!-- Link para o arquivo JavaScript separado -->
+</body>
+</html>

@@ -1,0 +1,23 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #fdfaf6;
+    color: #4a4a4a;
+}
+.highlight-link {
+    cursor: pointer;
+    color: #2563eb;
+    text-decoration: underline;
+    font-weight: 500;
+}
+.highlight-link:hover {
+    color: #1d4ed8;
+}
+.code-block {
+    background-color: #282c34;
+    color: #abb2bf;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    font-family: 'Courier New', Courier, monospace;
+    white-space: pre-wrap;
+    word-break: break-all;
+}

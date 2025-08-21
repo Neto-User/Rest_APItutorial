@@ -1,0 +1,30 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #FDFBF8;
+    color: #4A4A4A;
+}
+.active-nav {
+    background-color: #EAE3D9;
+    color: #3D3D3D;
+    font-weight: 500;
+}
+.content-section {
+    display: none;
+}
+.content-section.active {
+    display: block;
+}
+.chart-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 300px;
+    max-height: 400px;
+}
+@media (min-width: 768px) {
+    .chart-container {
+        height: 350px;
+    }
+}

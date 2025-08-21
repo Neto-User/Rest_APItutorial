@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOAP vs. REST: Uma Exploração Interativa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: A thematic, single-page application designed for progressive disclosure. The structure starts with a high-level analogy, moves to a direct comparison, and then allows for a deep dive into the historical context of SOAP. This non-linear structure was chosen because it allows users to grasp the core difference quickly (analogy), see the practical implications (comparison table/chart), and then explore the "why" at their own pace. Navigation is handled by clear buttons that scroll to sections, making the user flow intuitive and focused on exploration rather than linear reading. -->
+    <!-- Visualization & Content Choices: 
+        1. Analogy Section (Letter vs. WhatsApp): Report Info -> High-level difference. Goal -> Inform. Viz/Presentation -> Side-by-side cards with icons. Interaction -> None, purely informational. Justification -> Visual metaphors are powerful for immediate understanding. Library/Method -> HTML/Tailwind.
+        2. Comparison Section: Report Info -> Table of differences. Goal -> Compare. Viz/Presentation -> A dynamic bar chart and a static HTML table. Interaction -> The chart provides a quick visual summary of the "Weight & Performance" aspect. Justification -> A chart makes the abstract concept of "heaviness" tangible, complementing the detailed table. Library/Method -> Chart.js for the chart, HTML/Tailwind for the table.
+        3. Historical Context (Why SOAP is complex): Report Info -> Reasons for SOAP's design. Goal -> Organize/Explain. Viz/Presentation -> Tabbed interface or clickable cards for each reason (Interoperability, Security, Standards). Interaction -> User clicks a tab/button to reveal the detailed explanation for that topic. Justification -> This breaks down a complex topic into digestible chunks, preventing information overload and promoting active engagement. Library/Method -> HTML/Tailwind and Vanilla JS for tab switching.
+        4. Conclusion (Rise of REST): Report Info -> Summary of REST's advantages in the modern era. Goal -> Inform. Viz/Presentation -> Simple, clear text block. Interaction -> None. Justification -> Provides a concise summary to wrap up the user's journey. Library/Method -> HTML/Tailwind.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#3D3D3D] mb-2">SOAP vs. REST</h1>
+            <p class="text-lg text-gray-600">Uma Exploração Interativa das Arquiteturas de Serviços Web</p>
+        </header>
+
+        <nav class="flex justify-center bg-[#F4F1ED] rounded-lg p-2 mb-12 sticky top-4 z-10 shadow-sm">
+            <button data-target="analogia" class="nav-btn active-nav px-4 py-2 rounded-md text-sm md:text-base transition-colors duration-300">A Analogia</button>
+            <button data-target="comparacao" class="nav-btn px-4 py-2 rounded-md text-sm md:text-base transition-colors duration-300">Comparação Direta</button>
+            <button data-target="historia" class="nav-btn px-4 py-2 rounded-md text-sm md:text-base transition-colors duration-300">A História do SOAP</button>
+        </nav>
+
+        <main>
+            <section id="analogia" class="content-section active">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl font-bold text-[#3D3D3D] mb-2">Entendendo a Essência</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Para começar, vamos usar uma analogia simples. Imagine que você precisa enviar uma mensagem importante para alguém. A forma como você envia essa mensagem pode ser muito diferente.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                        <div class="flex items-center mb-4">
+                            <span class="text-4xl mr-4">✉️</span>
+                            <h3 class="text-2xl font-bold text-[#A67B5B]">SOAP: O Serviço Postal</h3>
+                        </div>
+                        <p class="text-gray-700">É como o serviço postal tradicional. Para enviar a carta (os dados), você segue regras rígidas. Você a coloca em um envelope especial (**envelope SOAP**), preenche todos os campos e a envia. O processo é formal, seguro e funciona, mas o envelope extra e a burocracia deixam tudo mais **pesado e lento**.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                        <div class="flex items-center mb-4">
+                            <span class="text-4xl mr-4">📱</span>
+                            <h3 class="text-2xl font-bold text-[#8DB38B]">REST: A Mensagem Instantânea</h3>
+                        </div>
+                        <p class="text-gray-700">É como uma mensagem de WhatsApp. Você pega a informação que quer enviar (os dados, geralmente em JSON) e a envia diretamente, sem envelopes ou formalidades desnecessárias. A mensagem é **mais leve, mais rápida** de enviar e muito mais fácil de ler e processar.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="comparacao" class="content-section">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl font-bold text-[#3D3D3D] mb-2">Comparação Direta</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Vamos analisar as principais diferenças técnicas entre os dois. O gráfico ilustra a diferença de "peso" e a tabela detalha as características de cada um.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 mb-8">
+                    <h3 class="text-xl font-bold text-center mb-4">Visualização: Peso e Performance</h3>
+                    <div class="chart-container">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="border-b-2 border-[#EAE3D9]">
+                                <th class="p-4 font-bold text-[#A67B5B]">Característica</th>
+                                <th class="p-4 font-bold">SOAP (Protocolo)</th>
+                                <th class="p-4 font-bold">REST (Estilo Arquitetural)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-200">
+                                <td class="p-4 font-semibold">Comunicação</td>
+                                <td class="p-4">Usa um "envelope" XML para empacotar os dados.</td>
+                                <td class="p-4">Envia os dados "em estado bruto", geralmente em JSON.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="p-4 font-semibold">Flexibilidade</td>
+                                <td class="p-4">Rígido, com regras específicas e mais complexo para clientes web.</td>
+                                <td class="p-4">Flexível, usa URLs simples e é facilmente consumido por JavaScript.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Protocolo de Transporte</td>
+                                <td class="p-4">Pode usar HTTP, SMTP, FTP, etc.</td>
+                                <td class="p-4">Restrito ao protocolo HTTP.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="historia" class="content-section">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl font-bold text-[#3D3D3D] mb-2">Por Que o SOAP Era Tão Complexo?</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">A complexidade do SOAP não foi um erro, mas uma escolha de design para resolver os grandes desafios do final dos anos 90. Clique nos tópicos abaixo para entender o contexto da época.</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                        <h3 class="text-xl font-bold text-[#A67B5B] mb-3">1. Interoperabilidade</h3>
+                        <p class="text-gray-700">Sistemas de diferentes empresas (Microsoft, IBM, etc.) não "se falavam". O SOAP foi criado para ser um "tradutor universal", independente de linguagem ou plataforma, garantindo que todos pudessem se comunicar seguindo as mesmas regras.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                        <h3 class="text-xl font-bold text-[#A67B5B] mb-3">2. Segurança e Transações</h3>
+                        <p class="text-gray-700">As primeiras integrações eram para operações críticas (bancos, seguradoras). O SOAP tinha suporte nativo para segurança robusta (WS-Security) e garantia de transações atômicas (WS-AtomicTransaction), algo vital para o mundo corporativo.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                        <h3 class="text-xl font-bold text-[#A67B5B] mb-3">3. Rigidez e Padrões</h3>
+                        <p class="text-gray-700">A falta de padrões gerava caos. O SOAP impôs uma estrutura rígida e previsível, o que era uma vantagem em ambientes corporativos complexos, pois reduzia a chance de erros na comunicação entre sistemas.</p>
+                    </div>
+                </div>
+
+                <div class="mt-10 bg-amber-50 border border-amber-200 p-6 rounded-xl">
+                    <h3 class="text-xl font-bold text-[#A67B5B] mb-3">O Preço da Robustez</h3>
+                    <p class="text-gray-700">Essa busca por garantias totais transformou o SOAP em um protocolo com muita "sobrecarga". O uso de XML verboso e o "envelope" para metadados, segurança e roteamento contribuíram para o seu peso. Ele foi a solução certa para a sua época, mas o cenário da web mudou.</p>
+                    <p class="text-gray-700 mt-2">Com a evolução da internet, dispositivos móveis e APIs públicas, a simplicidade e a performance do REST se tornaram mais importantes, oferecendo uma solução mais leve e adequada ao mundo atual.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

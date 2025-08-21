@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia Interativo de Parâmetros de API</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Chosen Palette: Calm Neutral -->
+    <!-- Application Structure Plan: A single-page application with a fixed side/top navigation to switch between content sections. Each parameter type has its own section featuring the original explanation plus a unique interactive "playground" to demonstrate the concept in action (e.g., building a URL dynamically). This structure was chosen to transform passive reading into active learning, allowing users to explore non-linearly and reinforce concepts through hands-on interaction, which is more effective for technical topics than a simple text document. -->
+    <!-- Visualization & Content Choices: Path Params -> Goal: Demonstrate URL structure -> Method: Text input + dynamic URL display -> Interaction: User types an ID, URL updates in real-time -> Justification: Shows the mandatory, structural nature of the parameter. | Query Params -> Goal: Demonstrate filtering -> Method: Checkboxes + dynamic URL display -> Interaction: User selects filters, query string builds automatically -> Justification: Illustrates the optional, additive nature of query params. | Header Params -> Goal: Explain metadata -> Method: Dropdown + code display -> Interaction: User selects a token, header object is shown -> Justification: Visualizes abstract data not seen in the URL. | Body Params -> Goal: Show complex data submission -> Method: HTML Form + JSON output display -> Interaction: User fills a form, sees the resulting JSON -> Justification: Connects a familiar UI (form) to the underlying data structure. All implemented with Vanilla JS & HTML. CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="antialiased">
+
+    <div class="flex flex-col md:flex-row min-h-screen">
+        <aside class="w-full md:w-64 bg-white border-b md:border-r border-stone-200 p-4 md:p-6 shrink-0">
+            <h1 class="text-xl font-bold text-indigo-600 mb-6">Parâmetros de API</h1>
+            <nav id="navigation" class="flex flex-row md:flex-col gap-2">
+                <a href="#inicio" data-target="inicio" class="nav-link text-stone-600 hover:bg-stone-100 p-3 rounded-lg text-sm md:text-base">Início</a>
+                <a href="#path" data-target="path" class="nav-link text-stone-600 hover:bg-stone-100 p-3 rounded-lg text-sm md:text-base">Path Params</a>
+                <a href="#query" data-target="query" class="nav-link text-stone-600 hover:bg-stone-100 p-3 rounded-lg text-sm md:text-base">Query Params</a>
+                <a href="#header" data-target="header" class="nav-link text-stone-600 hover:bg-stone-100 p-3 rounded-lg text-sm md:text-base">Header Params</a>
+                <a href="#body" data-target="body" class="nav-link text-stone-600 hover:bg-stone-100 p-3 rounded-lg text-sm md:text-base">Body Params</a>
+                <a href="#resumo" data-target="resumo" class="nav-link text-stone-600 hover:bg-stone-100 p-3 rounded-lg text-sm md:text-base">Resumo Prático</a>
+            </nav>
+        </aside>
+
+        <main class="flex-1 p-6 md:p-10">
+            <div id="content-container">
+                
+                <section id="inicio" class="content-section space-y-6">
+                    <h2 class="text-3xl font-bold text-stone-800">Os 4 Tipos de Parâmetros de API</h2>
+                    <p class="text-lg text-stone-600 max-w-3xl">Imagine que você está pedindo uma pizza pela internet. A <strong>API</strong> é a interface que a pizzaria usa para receber seu pedido. Os "<strong>parâmetros</strong>" são as diferentes informações que você precisa fornecer para que o pedido seja feito corretamente. Cada tipo de parâmetro serve para um propósito diferente.</p>
+                    <div class="bg-indigo-50 border-l-4 border-indigo-500 text-indigo-800 p-4 rounded-r-lg max-w-3xl">
+                        <p>Use o menu ao lado para navegar entre os tipos de parâmetros e ver exemplos interativos de como cada um funciona na prática.</p>
+                    </div>
+                </section>
+
+                <section id="path" class="content-section space-y-6">
+                    <h2 class="text-3xl font-bold text-stone-800">1. Parâmetros de Caminho (Path Params)</h2>
+                    <p class="text-lg text-stone-600 max-w-3xl">Pense nos <strong>Path Params</strong> como as informações essenciais para encontrar o item exato que você quer. Eles fazem parte do "endereço" da sua requisição.</p>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">O que são?</h3>
+                        <p class="text-stone-600 max-w-3xl">São valores <strong>obrigatórios</strong> que estão embutidos diretamente no caminho (na URL). Eles são usados para identificar um recurso único, como um produto ou um perfil de usuário.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Quando usar?</h3>
+                        <p class="text-stone-600 max-w-3xl">Use Path Params quando a informação é <strong>crítica</strong> e sem ela a requisição não tem como ser processada. Pense neles como o número de uma casa: a rua pode ser a mesma, mas sem o número, a carta não chega.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-stone-200 max-w-3xl space-y-4">
+                         <h4 class="text-lg font-semibold text-indigo-700">Teste na Prática</h4>
+                         <p class="text-sm text-stone-500">Digite um ID de produto para ver como ele é adicionado à URL.</p>
+                         <div class="flex items-center gap-2">
+                            <span class="text-stone-500">https://loja.com/api/produtos/</span>
+                            <input type="text" id="path-param-input" value="12345" class="w-32 p-2 border border-stone-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
+                         </div>
+                         <p class="text-sm font-medium">URL Resultante:</p>
+                         <pre><code id="path-param-output">https://loja.com/api/produtos/12345</code></pre>
+                    </div>
+                </section>
+
+                <section id="query" class="content-section space-y-6">
+                    <h2 class="text-3xl font-bold text-stone-800">2. Parâmetros de Consulta (Query Params)</h2>
+                    <p class="text-lg text-stone-600 max-w-3xl">Os <strong>Query Params</strong> são como as informações adicionais que você fornece para "refinar" seu pedido. Eles são opcionais e ajudam a filtrar ou personalizar a resposta.</p>
+                     <div>
+                        <h3 class="text-xl font-semibold mb-2">O que são?</h3>
+                        <p class="text-stone-600 max-w-3xl">São pares de chave e valor que vêm depois de um <code>?</code> na URL. Eles são separados por <code>&</code> se houver mais de um.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Quando usar?</h3>
+                        <p class="text-stone-600 max-w-3xl">Use Query Params para filtros, paginação, ordenação e qualquer outra informação que seja <strong>opcional</strong> para a requisição. Se você precisa de flexibilidade para refinar a busca, essa é a melhor opção.</p>
+                    </div>
+                     <div class="bg-white p-6 rounded-xl border border-stone-200 max-w-3xl space-y-4">
+                         <h4 class="text-lg font-semibold text-indigo-700">Teste na Prática</h4>
+                         <p class="text-sm text-stone-500">Selecione os filtros para ver como a URL de busca é construída.</p>
+                         <div id="query-param-inputs" class="space-y-2">
+                            <label class="flex items-center gap-2">
+                                <input type="checkbox" data-param="ordenar" value="preco_asc" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                <span>Ordenar por preço (menor para maior)</span>
+                            </label>
+                             <label class="flex items-center gap-2">
+                                <input type="checkbox" data-param="em_estoque" value="true" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                <span>Apenas em estoque</span>
+                            </label>
+                             <label class="flex items-center gap-2">
+                                <input type="checkbox" data-param="categoria" value="eletronicos" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                <span>Categoria: Eletrônicos</span>
+                            </label>
+                         </div>
+                         <p class="text-sm font-medium">URL Resultante:</p>
+                         <pre><code id="query-param-output">https://voos.com.br/api/buscar</code></pre>
+                    </div>
+                </section>
+
+                <section id="header" class="content-section space-y-6">
+                    <h2 class="text-3xl font-bold text-stone-800">3. Parâmetros de Cabeçalho (Header Params)</h2>
+                    <p class="text-lg text-stone-600 max-w-3xl">Os <strong>Header Params</strong> são como as etiquetas e informações de envio que você anexa a um pacote. Eles não são visíveis na URL, mas contêm metadados importantes sobre o pedido.</p>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">O que são?</h3>
+                        <p class="text-stone-600 max-w-3xl">São dados enviados no cabeçalho da requisição. Eles fornecem contexto sobre a mensagem, como o formato do conteúdo, a origem, ou tokens de segurança.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Quando usar?</h3>
+                        <p class="text-stone-600 max-w-3xl">Use Header Params para informações relacionadas ao <strong>metadado da requisição</strong>, como autenticação, tipos de conteúdo, ou idioma preferido. Eles não fazem parte do dado em si, mas dão contexto sobre ele.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-stone-200 max-w-3xl space-y-4">
+                         <h4 class="text-lg font-semibold text-indigo-700">Teste na Prática</h4>
+                         <p class="text-sm text-stone-500">Selecione um token de autenticação para ver como o cabeçalho da requisição é formatado.</p>
+                         <div>
+                            <label for="header-param-input" class="block text-sm font-medium text-stone-700 mb-1">Token de Autenticação:</label>
+                            <select id="header-param-input" class="w-full p-2 border border-stone-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
+                                <option value="nenhum">Nenhum</option>
+                                <option value="xyz123abc" selected>Token de Usuário Básico (xyz123abc)</option>
+                                <option value="987zyx-admin">Token de Administrador (987zyx-admin)</option>
+                            </select>
+                         </div>
+                         <p class="text-sm font-medium">Cabeçalhos da Requisição (Headers):</p>
+                         <pre><code id="header-param-output">{
+  "Content-Type": "application/json",
+  "Authorization": "Bearer xyz123abc"
+}</code></pre>
+                    </div>
+                </section>
+
+                <section id="body" class="content-section space-y-6">
+                    <h2 class="text-3xl font-bold text-stone-800">4. Parâmetros de Corpo (Body Params)</h2>
+                    <p class="text-lg text-stone-600 max-w-3xl">Os <strong>Body Params</strong> são como o conteúdo do pacote que você está enviando. Eles contêm os dados principais, geralmente grandes ou complexos, que você quer que o servidor processe.</p>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">O que são?</h3>
+                        <p class="text-stone-600 max-w-3xl">São dados enviados no "corpo" da requisição. São usados com os métodos <code>POST</code> (para criar um recurso) e <code>PUT</code> ou <code>PATCH</code> (para atualizar).</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Quando usar?</h3>
+                        <p class="text-stone-600 max-w-3xl">Use Body Params para <strong>dados complexos e grandes</strong> que precisam ser processados pelo servidor, como formulários, arquivos, ou objetos JSON com muitas propriedades.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-stone-200 max-w-3xl space-y-4">
+                         <h4 class="text-lg font-semibold text-indigo-700">Teste na Prática</h4>
+                         <p class="text-sm text-stone-500">Preencha o formulário de cadastro para ver os dados sendo formatados como JSON no corpo da requisição.</p>
+                         <form id="body-param-form" class="space-y-3">
+                            <input type="text" id="body-name" placeholder="Nome" value="Ada Lovelace" class="w-full p-2 border border-stone-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
+                            <input type="email" id="body-email" placeholder="Email" value="ada@example.com" class="w-full p-2 border border-stone-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
+                         </form>
+                         <p class="text-sm font-medium">Corpo da Requisição (Body) em JSON:</p>
+                         <pre><code id="body-param-output">{
+  "nome": "Ada Lovelace",
+  "email": "ada@example.com"
+}</code></pre>
+                    </div>
+                </section>
+
+                <section id="resumo" class="content-section space-y-6">
+                    <h2 class="text-3xl font-bold text-stone-800">Resumo para a Prática</h2>
+                    <p class="text-lg text-stone-600 max-w-3xl">Entender a diferença entre os parâmetros é fundamental para projetar e consumir APIs de forma eficiente. Aqui está um resumo rápido para consulta.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl">
+                        <div class="bg-white p-4 rounded-lg border border-stone-200">
+                            <h3 class="font-bold text-indigo-700">Path Params</h3>
+                            <p class="text-stone-600 text-sm">O "endereço" para achar o recurso exato. (<strong>Obrigatório</strong>)</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border border-stone-200">
+                            <h3 class="font-bold text-indigo-700">Query Params</h3>
+                            <p class="text-stone-600 text-sm">Os "filtros" para refinar a busca. (<strong>Opcional</strong>)</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border border-stone-200">
+                            <h3 class="font-bold text-indigo-700">Header Params</h3>
+                            <p class="text-stone-600 text-sm">A "etiqueta" com informações de envio e segurança. (<strong>Metadado</strong>)</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border border-stone-200">
+                            <h3 class="font-bold text-indigo-700">Body Params</h3>
+                            <p class="text-stone-600 text-sm">O "conteúdo" do pacote com os dados complexos. (<strong>Dados</strong>)</p>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

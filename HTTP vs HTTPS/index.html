@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorador Interativo: HTTP vs. HTTPS</title>
+    <!-- Links para CDNs de bibliotecas externas -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Link para o seu arquivo CSS externo -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <span class="font-bold text-xl accent-text">A Linguagem da Web</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#intro" class="text-gray-500 hover:accent-text px-3 py-2 rounded-md text-sm font-medium">HTTP</a>
+                        <a href="#cycle" class="text-gray-500 hover:accent-text px-3 py-2 rounded-md text-sm font-medium">O Ciclo</a>
+                        <a href="#security" class="text-gray-500 hover:accent-text px-3 py-2 rounded-md text-sm font-medium">Segurança</a>
+                        <a href="#comparison" class="text-gray-500 hover:accent-text px-3 py-2 rounded-md text-sm font-medium">Comparativo</a>
+                        <a href="#importance" class="text-gray-500 hover:accent-text px-3 py-2 rounded-md text-sm font-medium">Importância</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+        <section id="intro" class="text-center mb-20">
+            <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">Entendendo o HTTP e HTTPS</h1>
+            <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600">Uma jornada interativa pela base da comunicação na internet, do protocolo que a iniciou à versão segura que usamos hoje.</p>
+        </section>
+
+        <section id="http-def" class="mb-24">
+            <h2 class="text-3xl font-bold text-center section-title mb-2">O que é HTTP?</h2>
+            <p class="text-center text-slate-600 max-w-3xl mx-auto mb-12">O <strong>Protocolo de Transferência de Hipertexto (HTTP)</strong> é o conjunto de regras que permite que navegadores e servidores "conversem" entre si. É a linguagem fundamental para solicitar e enviar qualquer tipo de dado na World Wide Web, desde textos e imagens até vídeos e muito mais.</p>
+            
+            <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200 flex flex-col md:flex-row items-center justify-around gap-8">
+                <div class="text-center">
+                    <div class="text-6xl mb-2">💻</div>
+                    <h3 class="text-xl font-semibold">Seu Navegador (Cliente)</h3>
+                    <p class="text-slate-500">Solicita informações</p>
+                </div>
+                <div class="text-4xl font-mono text-teal-500 animate-pulse">&lt;---&gt;</div>
+                <div class="text-center">
+                    <div class="text-6xl mb-2">🌐</div>
+                    <h3 class="text-xl font-semibold">Servidor Web</h3>
+                    <p class="text-slate-500">Envia as informações</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="cycle" class="mb-24">
+            <h2 class="text-3xl font-bold text-center section-title mb-2">O Ciclo em Ação</h2>
+            <p class="text-center text-slate-600 max-w-3xl mx-auto mb-12">A comunicação HTTP acontece em um ciclo de solicitação e resposta. Clique no botão para visualizar como seu navegador pede uma página e o servidor a envia de volta.</p>
+            
+            <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+                <div id="animation-container" class="relative h-48 flex items-center justify-between">
+                    <div class="text-center w-1/4">
+                        <div class="text-5xl mb-2">💻</div>
+                        <h3 class="font-semibold">Cliente</h3>
+                    </div>
+                    
+                    <div id="request-packet" class="packet absolute left-1/4 w-24 h-16 bg-sky-100 border-2 border-sky-400 rounded-lg flex items-center justify-center text-sm font-mono text-sky-800" style="transform: translateX(0);">GET /pagina</div>
+                    <div id="response-packet" class="packet absolute right-1/4 w-24 h-16 bg-emerald-100 border-2 border-emerald-400 rounded-lg flex items-center justify-center text-sm font-mono text-emerald-800 opacity-0" style="transform: translateX(0);">&lt;html&gt;...</div>
+
+                    <div class="text-center w-1/4">
+                        <div class="text-5xl mb-2">🌐</div>
+                        <h3 class="font-semibold">Servidor</h3>
+                    </div>
+                </div>
+                <div class="text-center mt-8">
+                    <button id="run-animation-btn" class="bg-teal-600 text-white font-bold py-2 px-6 rounded-full hover:bg-teal-700 transition-colors">Iniciar Simulação</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="security" class="mb-24">
+            <h2 class="text-3xl font-bold text-center section-title mb-2">A Falha Crítica de Segurança</h2>
+            <p class="text-center text-slate-600 max-w-3xl mx-auto mb-12">O HTTP padrão envia dados em texto simples. Isso significa que qualquer pessoa que intercepte a comunicação pode ler e roubar informações sensíveis, como senhas e dados de cartão de crédito.</p>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-lg border border-red-200">
+                    <h3 class="text-xl font-bold text-red-600 mb-4 text-center">Comunicação HTTP (Insegura)</h3>
+                    <div class="relative h-40 flex items-center justify-between">
+                        <span class="text-4xl">💻</span>
+                        <div class="absolute w-full top-1/2 -translate-y-1/2 flex justify-center items-center">
+                            <div class="text-4xl z-10">🕵️</div>
+                            <div class="absolute border-t-2 border-dashed border-red-400 w-full"></div>
+                        </div>
+                        <div class="absolute left-1/2 -translate-x-1/2 top-0 text-red-700 bg-red-100 px-2 py-1 rounded text-xs">senha123</div>
+                        <span class="text-4xl">🌐</span>
+                    </div>
+                    <p class="text-center mt-4 text-slate-500">Um "espião" pode ver os dados em trânsito.</p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-xl shadow-lg border border-green-200">
+                    <h3 class="text-xl font-bold text-green-600 mb-4 text-center">Comunicação HTTPS (Segura)</h3>
+                    <div class="relative h-40 flex items-center justify-between">
+                        <span class="text-4xl">💻</span>
+                        <div class="absolute w-full top-1/2 -translate-y-1/2 flex justify-center items-center">
+                             <div class="text-4xl z-10">🕵️❓</div>
+                            <div class="absolute border-t-2 border-solid border-green-400 w-full"></div>
+                        </div>
+                        <div class="absolute left-1/2 -translate-x-1/2 top-0 text-green-700 bg-green-100 px-2 py-1 rounded text-2xl">🔒</div>
+                        <span class="text-4xl">🌐</span>
+                    </div>
+                    <p class="text-center mt-4 text-slate-500">Os dados são criptografados e ilegíveis para o "espião".</p>
+                </div>
+            </div>
+             <p class="text-center text-slate-600 max-w-3xl mx-auto mt-12">O <strong>HTTPS (HTTP Seguro)</strong> resolve isso usando criptografia (TLS/SSL) para proteger a comunicação. Ele garante a <strong>criptografia</strong> dos dados, a <strong>autenticação</strong> do servidor e a <strong>integridade</strong> da informação.</p>
+        </section>
+        
+        <section id="comparison" class="mb-24">
+            <h2 class="text-3xl font-bold text-center section-title mb-2">Comparativo Visual</h2>
+            <p class="text-center text-slate-600 max-w-3xl mx-auto mb-12">As diferenças entre HTTP e HTTPS são cruciais para a segurança e confiança na web. O gráfico abaixo destaca os pontos-chave.</p>
+            <div class="bg-white p-4 sm:p-8 rounded-xl shadow-lg border border-gray-200">
+                <div class="chart-container">
+                    <canvas id="comparisonChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="importance" class="mb-16">
+            <h2 class="text-3xl font-bold text-center section-title mb-2">Por Que o HTTPS é o Padrão Hoje?</h2>
+            <p class="text-center text-slate-600 max-w-3xl mx-auto mb-12">O HTTPS não é mais uma opção, é uma necessidade. A web moderna é construída sobre a base de segurança e confiança que ele proporciona.</p>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="card bg-white p-6 rounded-xl shadow border border-gray-200 text-center">
+                    <div class="text-4xl mb-4">🛡️</div>
+                    <h3 class="text-lg font-semibold mb-2">Proteção de Dados</h3>
+                    <p class="text-slate-500 text-sm">Evita que senhas, dados financeiros e informações pessoais sejam interceptados.</p>
+                </div>
+                <div class="card bg-white p-6 rounded-xl shadow border border-gray-200 text-center">
+                    <div class="text-4xl mb-4">🤝</div>
+                    <h3 class="text-lg font-semibold mb-2">Confiança e Credibilidade</h3>
+                    <p class="text-slate-500 text-sm">O ícone de cadeado mostra aos usuários que o site é seguro, aumentando a confiança.</p>
+                </div>
+                <div class="card bg-white p-6 rounded-xl shadow border border-gray-200 text-center">
+                    <div class="text-4xl mb-4">📈</div>
+                    <h3 class="text-lg font-semibold mb-2">Melhor Ranqueamento (SEO)</h3>
+                    <p class="text-slate-500 text-sm">Motores de busca como o Google priorizam sites seguros nos resultados de pesquisa.</p>
+                </div>
+                <div class="card bg-white p-6 rounded-xl shadow border border-gray-200 text-center">
+                    <div class="text-4xl mb-4">💡</div>
+                    <h3 class="text-lg font-semibold mb-2">Acesso a Novas Tecnologias</h3>
+                    <p class="text-slate-500 text-sm">Muitos recursos modernos de navegadores exigem uma conexão HTTPS para funcionar.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-800 text-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center">
+            <p>&copy; 2025 Explorador da Web. Sempre navegue com segurança.</p>
+        </div>
+    </footer>
+
+    <!-- Link para o seu arquivo JavaScript externo -->
+    <script src="script.js"></script>
+</body>
+</html>

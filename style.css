@@ -1,0 +1,29 @@
+/* Define a fonte Inter como padrão para uma estética moderna */
+body {
+    font-family: "Inter", sans-serif;
+    background-color: #f8fafc; /* Cor de fundo clara para o tema */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Garante que o corpo ocupe pelo menos 100% da altura da viewport */
+    margin: 0;
+}
+
+/* Estilo para o contêiner principal para centralizar o conteúdo */
+.main-container {
+    flex-grow: 1; /* Permite que o contêiner principal preencha o espaço disponível */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem; /* Padding responsivo */
+}
+
+/* Estilos personalizados para o hover dos botões */
+.btn-link {
+    transition: all 0.3s ease; /* Suaviza as transições de hover */
+}
+
+.btn-link:hover {
+    transform: translateY(-3px); /* Leve movimento para cima no hover */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Sombra mais pronunciada no hover */
+}

@@ -1,0 +1,40 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #FDFBF8;
+    color: #4A4A4A;
+}
+.active-btn {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.book {
+    transition: all 0.5s ease-in-out;
+    width: 50px;
+    height: 70px;
+    background-color: #A8DADC;
+    border-radius: 4px;
+    position: absolute;
+    bottom: 20px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+}
+.shelf {
+    position: absolute;
+    bottom: 10px;
+    left: 10%;
+    right: 10%;
+    height: 10px;
+    background-color: #8D6E63;
+    border-radius: 4px;
+}
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out forwards;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

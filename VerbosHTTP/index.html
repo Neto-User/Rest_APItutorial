@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorador Interativo: CRUD e Verbos HTTP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: The application is structured as a single-page interactive learning tool. It starts with the core analogy (CRUD to HTTP), followed by an interactive simulator where users click a CRUD action to see the corresponding HTTP verb's details and a visual animation. It concludes with a summary of key points. This structure was chosen to transform passive reading into active exploration, reinforcing the concepts through direct interaction and visual feedback, which is more effective for learning than a static table. -->
+    <!-- Visualization & Content Choices: The main table is replaced by an interactive simulator. Report Info: Verb details -> Goal: Compare/Inform -> Viz/Presentation: Interactive panel with buttons and dynamic text display -> Interaction: User clicks a CRUD button to update the display -> Justification: Creates a cause-and-effect learning experience. The core analogy is presented in styled cards for better visual separation. Key points are also in cards for scannability. All visuals are created with HTML/CSS/Tailwind and animated with JS. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="antialiased">
+
+    <main class="container mx-auto px-4 py-8 md:py-12">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Explorador Interativo</h1>
+            <p class="text-lg md:text-xl text-gray-600">CRUD e Verbos HTTP</p>
+        </header>
+
+        <section id="analogy" class="mb-16">
+            <h2 class="text-2xl font-bold text-center mb-2 text-gray-700">A Analogia Principal</h2>
+            <p class="text-center text-gray-500 mb-8 max-w-2xl mx-auto">A ideia é associar cada verbo HTTP a uma ação que você já conhece de bancos de dados. Pense neles como os quatro comandos fundamentais para manipular dados.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 text-center">
+                    <p class="text-5xl mb-3">➡️</p>
+                    <h3 class="text-xl font-semibold text-blue-600">GET</h3>
+                    <p class="text-gray-600">é como</p>
+                    <p class="text-lg font-bold text-gray-800">Read (Ler)</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 text-center">
+                    <p class="text-5xl mb-3">➡️</p>
+                    <h3 class="text-xl font-semibold text-green-600">POST</h3>
+                    <p class="text-gray-600">é como</p>
+                    <p class="text-lg font-bold text-gray-800">Create (Criar)</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 text-center">
+                    <p class="text-5xl mb-3">➡️</p>
+                    <h3 class="text-xl font-semibold text-yellow-600">PUT</h3>
+                    <p class="text-gray-600">é como</p>
+                    <p class="text-lg font-bold text-gray-800">Update (Atualizar)</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 text-center">
+                    <p class="text-5xl mb-3">➡️</p>
+                    <h3 class="text-xl font-semibold text-red-600">DELETE</h3>
+                    <p class="text-gray-600">é como</p>
+                    <p class="text-lg font-bold text-gray-800">Delete (Deletar)</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="simulator" class="mb-16">
+            <h2 class="text-2xl font-bold text-center mb-2 text-gray-700">Simulador de API</h2>
+            <p class="text-center text-gray-500 mb-8 max-w-2xl mx-auto">Clique em uma ação CRUD para ver os detalhes do verbo HTTP correspondente e uma demonstração visual da operação em um recurso (neste caso, um livro).</p>
+            
+            <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+                <div class="p-6">
+                    <p class="font-semibold text-gray-700 mb-4 text-center">Escolha uma Ação CRUD:</p>
+                    <div class="flex justify-center flex-wrap gap-3 mb-8">
+                        <button onclick="selectVerb('POST')" class="verb-btn px-6 py-2 bg-green-500 text-white font-semibold rounded-full shadow-sm hover:bg-green-600 transition-all duration-300">Criar (Create)</button>
+                        <button onclick="selectVerb('GET')" class="verb-btn px-6 py-2 bg-blue-500 text-white font-semibold rounded-full shadow-sm hover:bg-blue-600 transition-all duration-300">Ler (Read)</button>
+                        <button onclick="selectVerb('PUT')" class="verb-btn px-6 py-2 bg-yellow-500 text-white font-semibold rounded-full shadow-sm hover:bg-yellow-600 transition-all duration-300">Atualizar (Update)</button>
+                        <button onclick="selectVerb('DELETE')" class="verb-btn px-6 py-2 bg-red-500 text-white font-semibold rounded-full shadow-sm hover:bg-red-600 transition-all duration-300">Deletar (Delete)</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-gray-200">
+                    <div id="details-panel" class="bg-gray-50 p-6 min-h-[350px]">
+                        <p class="text-center text-gray-500">Selecione uma ação para ver os detalhes.</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 flex items-center justify-center min-h-[350px] relative overflow-hidden">
+                        <div id="visual-demo" class="w-full h-48 relative">
+                           <div class="shelf"></div>
+                           <div id="book-demo" class="book" style="opacity: 0;">📖</div>
+                        </div>
+                        <p id="visual-text" class="absolute top-6 text-center font-semibold text-gray-600"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="key-points">
+            <h2 class="text-2xl font-bold text-center mb-2 text-gray-700">Pontos Chave para a Prática</h2>
+            <p class="text-center text-gray-500 mb-8 max-w-2xl mx-auto">Lembre-se destas regras fundamentais ao construir ou interagir com APIs para garantir que seu código seja previsível e siga as convenções.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                    <h3 class="font-bold text-lg mb-2 text-gray-800">🎯 Propósito Específico</h3>
+                    <p class="text-gray-600">GET é para buscar, POST para criar. Nunca use GET para criar ou modificar dados, pois ele não foi feito para isso e pode ter efeitos colaterais inesperados.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                    <h3 class="font-bold text-lg mb-2 text-gray-800">🆔 Identificação de Recursos</h3>
+                    <p class="text-gray-600">PUT e DELETE são para recursos que já existem. Você precisa saber o ID (ou outra identificação única) do recurso para atualizá-lo ou deletá-lo.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                    <h3 class="font-bold text-lg mb-2 text-gray-800">📦 A "Magia" do Body</h3>
+                    <p class="text-gray-600">Ao criar ou atualizar (POST ou PUT), os dados (o nome do livro, autor, etc.) vão dentro do "corpo" (Body) da requisição, não na URL.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                    <h3 class="font-bold text-lg mb-2 text-gray-800">🚦 Respostas da API</h3>
+                    <p class="text-gray-600">Os Status Codes (200, 201, 404, etc.) são a resposta da API, informando se sua ação deu certo, falhou ou se algo está faltando. É o feedback da sua requisição.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-6 mt-8 border-t border-gray-200">
+        <p class="text-gray-500">Uma aplicação interativa para desmistificar os verbos HTTP.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

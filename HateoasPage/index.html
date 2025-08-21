@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorador Interativo HATEOAS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto px-4 py-8 md:py-12">
+
+        <header class="text-center mb-12 md:mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Explorando o HATEOAS</h1>
+            <p class="text-lg md:text-xl text-gray-600">Hypermedia como o Motor do Estado da Aplicação</p>
+        </header>
+
+        <main>
+            <section id="concepts" class="mb-12 md:mb-20">
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">🧭 O que é?</h3>
+                        <p class="text-gray-700 leading-relaxed">
+                            HATEOAS é um princípio onde a resposta de uma API inclui não apenas dados, mas também links para as próximas ações possíveis. A API guia o cliente, eliminando a necessidade de "adivinhar" URLs.
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">✨ Por que usar?</h3>
+                        <p class="text-gray-700 leading-relaxed">
+                            O objetivo é o desacoplamento. Torna a API EVOLUTIVA, pois as URLs podem mudar sem quebrar o cliente, e AUTOEXPLICATIVA, pois as ações disponíveis são descobertas dinamicamente.
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">⚙️ Como funciona?</h3>
+                        <p class="text-gray-700 leading-relaxed">
+                            Através de links na resposta, geralmente com `href` (a URL), `rel` (a relação, ex: "comprar") e `method` (o método HTTP, ex: "POST").
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="interactive-demo" class="bg-white p-6 md:p-8 rounded-lg border border-gray-200 shadow-md">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-800">Veja em Ação: Simulação de API</h2>
+                    <p class="mt-2 text-gray-600 max-w-2xl mx-auto">
+                        Interaja com um cliente de API simulado. Clique no botão para buscar um produto e, em seguida, use os links fornecidos na resposta para navegar pelas ações disponíveis, exatamente como o HATEOAS propõe.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 items-start">
+                    <div class="border border-gray-200 rounded-lg p-6 h-full flex flex-col">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Painel do Cliente</h3>
+                        <p class="text-gray-600 mb-6">Esta é a sua interface. As ações que você toma aqui enviam "requisições" para o servidor simulado.</p>
+                        <div class="mt-auto">
+                           <button id="fetchProductBtn" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                                1. Buscar Produto (ID: 123)
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="border border-gray-200 rounded-lg p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Resposta do Servidor</h3>
+                        <div id="apiResponse" class="code-block min-h-[200px] text-sm">
+                            <span class="text-gray-500">// A resposta da API aparecerá aqui...</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center mt-12 md:mt-20 pt-8 border-t border-gray-200">
+            <p class="text-gray-600">Com HATEOAS, o cliente não precisa construir URLs. Ele as consome e as utiliza para interagir com a API de forma flexível e orientada pela própria resposta do servidor.</p>
+        </footer>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
