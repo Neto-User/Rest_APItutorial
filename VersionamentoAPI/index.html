@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Interativo: Explorando o Versionamento de APIs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony -->
+    <!-- Application Structure Plan: A aplicação foi desenhada como uma narrativa de página única para guiar o usuário de forma lógica, do "o quê" e "porquê" para o "como". A estrutura temática (Introdução -> Importância -> Métodos -> Comparação -> Conclusão) foi escolhida para construir o conhecimento progressivamente, tornando um tópico técnico mais digerível. A interatividade, como abas para os métodos e um gráfico comparativo, visa engajar o usuário e facilitar a comparação direta das abordagens, melhorando a retenção da informação em comparação com a leitura de um texto estático. -->
+    <!-- Visualization & Content Choices: O conteúdo foi dividido em seções claras. Para a seção "Métodos", foram usadas abas interativas (HTML/CSS/JS) para organizar as informações sem sobrecarregar o usuário, permitindo que ele se concentre em um método por vez. Para a "Comparação", um gráfico de barras (Chart.js/Canvas) foi escolhido por ser a forma mais eficaz de comparar visualmente múltiplos critérios (simplicidade, clareza, etc.) entre diferentes métodos. Esta abordagem visual e interativa transforma a análise em uma experiência de descoberta. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-indigo-700">Versionamento de APIs</h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#intro" class="text-gray-600 hover:text-indigo-600">Introdução</a>
+                <a href="#importance" class="text-gray-600 hover:text-indigo-600">Por que é Importante?</a>
+                <a href="#methods" class="text-gray-600 hover:text-indigo-600">Métodos</a>
+                <a href="#comparison" class="text-gray-600 hover:text-indigo-600">Comparativo</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <section id="intro" class="text-center mb-20">
+            <h2 class="text-4xl font-bold mb-4 text-stone-800">Gerenciando a Evolução e a Compatibilidade</h2>
+            <p class="max-w-3xl mx-auto text-lg text-stone-600">
+                Bem-vindo a este painel interativo sobre versionamento de APIs. Aqui, exploraremos a prática de gerenciar mudanças em uma API sem quebrar as aplicações que a consomem. O objetivo é entender como garantir que as regras de negócio possam evoluir de forma segura e estável, mantendo a confiança dos seus clientes.
+            </p>
+        </section>
+
+        <section id="importance" class="mb-20">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-stone-800">Por Que o Versionamento é Essencial?</h3>
+                <p class="mt-2 text-stone-600">Sem uma estratégia de versionamento, qualquer mudança pode gerar um efeito cascata. Esta seção detalha os problemas críticos que o versionamento resolve, garantindo estabilidade e permitindo a inovação contínua.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md border border-stone-200">
+                    <h4 class="text-xl font-semibold mb-2 text-indigo-700">Evita a Interrupção de Serviços</h4>
+                    <p class="text-stone-600">Clientes podem ter suas aplicações paradas se a API mudar drasticamente. O versionamento garante que versões antigas continuem funcionando, dando tempo para uma migração planejada.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border border-stone-200">
+                    <h4 class="text-xl font-semibold mb-2 text-indigo-700">Reduz Custos de Manutenção</h4>
+                    <p class="text-stone-600">Coordenar atualizações simultâneas em todos os sistemas dependentes é caro e complexo. O versionamento permite que os consumidores atualizem em seu próprio ritmo.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border border-stone-200">
+                    <h4 class="text-xl font-semibold mb-2 text-indigo-700">Acelera a Inovação</h4>
+                    <p class="text-stone-600">O medo de quebrar integrações existentes pode paralisar a evolução da API. Com o versionamento, novas funcionalidades podem ser lançadas em novas versões sem impactar as antigas.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="methods" class="mb-20">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-stone-800">Como Versionar uma API?</h3>
+                <p class="mt-2 text-stone-600">Existem duas abordagens principais: pela URL ou pelo cabeçalho HTTP. Clique nas abas abaixo para explorar as diferentes formas dentro de cada método, com exemplos práticos e uma análise de suas características.</p>
+            </div>
+            <div>
+                <div class="mb-6 flex justify-center border-b border-stone-300">
+                    <button id="btn-url" class="py-3 px-6 border-b-2 tab-active">Versionamento por URL</button>
+                    <button id="btn-header" class="py-3 px-6 border-b-2 border-transparent text-stone-500">Versionamento via Header</button>
+                </div>
+
+                <div id="content-url">
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-lg border border-stone-200">
+                            <h4 class="font-bold text-lg mb-2">Por Path (Caminho)</h4>
+                            <p class="text-sm text-stone-600 mb-4">A abordagem mais popular. A versão é clara e faz parte do caminho do recurso.</p>
+                            <div class="code-block">seuhost.com/api/v1/recursos</div>
+                            <p class="mt-4 text-xs text-indigo-600 font-medium">✓ Dev Friendly, simples e claro.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg border border-stone-200">
+                            <h4 class="font-bold text-lg mb-2">Por Subdomínio</h4>
+                            <p class="text-sm text-stone-600 mb-4">A versão é colocada no início da URL. Intuitiva, mas menos comum.</p>
+                            <div class="code-block">v1.seuhost.com/api/recursos</div>
+                             <p class="mt-4 text-xs text-stone-500">✗ Pode complicar a gestão de SSL.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg border border-stone-200">
+                            <h4 class="font-bold text-lg mb-2">Por Query String</h4>
+                            <p class="text-sm text-stone-600 mb-4">A versão é um parâmetro. Caiu em desuso por dificultar a leitura.</p>
+                            <div class="code-block">seuhost.com/api?version=1.0</div>
+                            <p class="mt-4 text-xs text-stone-500">✗ URL menos legível e navegável.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="content-header" class="hidden">
+                     <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-white p-6 rounded-lg border border-stone-200">
+                            <h4 class="font-bold text-lg mb-2">Com Header Customizado</h4>
+                            <p class="text-sm text-stone-600 mb-4">Usa um cabeçalho próprio para a versão. Mantém a URL limpa, mas a versão fica "escondida".</p>
+                            <div class="code-block">API-Version: v1</div>
+                            <p class="mt-4 text-xs text-indigo-600 font-medium">✓ URL limpa, mais simples que o Accept.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg border border-stone-200">
+                            <h4 class="font-bold text-lg mb-2">Com Accept Padrão</h4>
+                            <p class="text-sm text-stone-600 mb-4">Usa o cabeçalho `Accept`. É a forma mais correta segundo a especificação HTTP.</p>
+                            <div class="code-block">Accept: application/vnd.seuhost.v1+json</div>
+                            <p class="mt-4 text-xs text-stone-500">✗ Pouco prático e não intuitivo para explorar.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+    </main>
+    
+    <footer class="bg-stone-800 text-white mt-20">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p>Painel Interativo sobre Versionamento de APIs.</p>
+            <p class="text-sm text-stone-400 mt-2">Uma demonstração de como transformar relatórios técnicos em experiências interativas.</p>
+        </div>
+    </footer>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
